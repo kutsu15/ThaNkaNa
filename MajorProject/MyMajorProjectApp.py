@@ -95,7 +95,8 @@ input_data = np.array([[brand_encoded, model_encoded, vehicle_age, km_driven,
 if st.button("Predict Price"):
     try:
         predicted_price = model.predict(input_data)[0]
-        st.success(f"💰 Estimated Car Price: ₹{predicted_price:,.2f}")
+        st.success(f"💰 Estimated Car Price: R{predicted_price:,.2f}")
     except Exception as e:
         st.error(f"❌ Error during prediction: {e}")
+
 
