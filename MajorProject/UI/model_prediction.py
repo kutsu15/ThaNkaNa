@@ -8,28 +8,29 @@ import os
 st.title("🚗 Welcome to the Car Price App")
 st.header("Please fill in the car details below")
 
-# ---------------------------
-# Load model and encoders safely
-# ---------------------------
-script_dir = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(script_dir, "..", "ModelDeployment", "model_combined.pkl")
+
+# Load model and encoders 
+
+script_dir = os.getcwd()
+model_path = os.path.join(script_dir, "MajorProject", "ModelDeployment", "model.pkl")
 
 if not os.path.exists(model_path):
-    st.error("❌ Model file not found. Please place 'model_combined.pkl' in ModelDeployment folder.")
+    st.error(f"❌ Model file not found. Please place 'model.pkl' in the 'MajorProject/ModelDeployment' folder.")
     st.stop()
 
-try:
-    with open(model_path, "rb") as file:
-        combined = pickle.load(file)
-    model = combined["model"]
-    encoders = combined["encoders"]
-except Exception as e:
-    st.error(f"❌ Error loading model: {e}")
+with open(model_path, "rb") as f:
+    combined = pickle.load(f)
+
+model = combined.get("model")
+encoders = combined.get("encoders")
+
+if model is None or encoders is None:
+    st.error("❌ Model or encoders not found in the pickle file.")
     st.stop()
 
-# ---------------------------
-# Brand → Model mapping
-# ---------------------------
+
+# Map abels the model was trained on
+
 brand_model_mapping = {
     "Audi": ["A4"],
     "Datsun": ["GO", "RediGO", "redi-GO"],
@@ -48,24 +49,24 @@ brand_model_mapping = {
     "Volkswagen": ["Polo", "Vento"]
 }
 
-# ---------------------------
-# Inputs
-# ---------------------------
+
+# User input
+
 brand = st.selectbox("Select Brand:", sorted(brand_model_mapping.keys()))
 model_name = st.selectbox("Select Model:", sorted(brand_model_mapping[brand]))
 
 vehicle_age = st.slider("Vehicle Age (years):", 0, 50, 5)
 km_driven = st.slider("Kilometers Driven:", 0, 500000, 50000)
-mileage = st.slider("Mileage (km/l):", 0.0, 50.0, 18.0)
-engine = st.slider("Engine (CC):", 0.0, 5000.0, 1200.0)
-max_power = st.slider("Max Power (bhp):", 0.0, 500.0, 80.0)
+mileage = st.slider("Mileage:", 0.0, 50.0, 18.0)
+engine = st.slider("Engine:", 0.0, 5000.0, 1200.0)
+max_power = st.slider("Max Power:", 0.0, 500.0, 80.0)
 seats = st.number_input("Number of Seats:", 1, 10, 5)
 fuel_type = st.selectbox("Fuel Type:", ["Petrol", "Diesel"])
 transmission_type = st.selectbox("Transmission Type:", ["Manual", "Automatic"])
 
-# ---------------------------
-# Encode categorical features safely
-# ---------------------------
+
+# Encode categorical features 
+
 def safe_encode(encoder, value, label):
     try:
         return encoder.transform([value])[0]
@@ -78,15 +79,15 @@ model_encoded = safe_encode(encoders["model"], model_name, "model")
 fuel_encoded = safe_encode(encoders["fuel_type"], fuel_type, "fuel type")
 trans_encoded = safe_encode(encoders["transmission_type"], transmission_type, "transmission type")
 
-# ---------------------------
-# Prepare input data (always 10 features)
-# ---------------------------
+
+# Input data
+
 input_data = np.array([[brand_encoded, model_encoded, vehicle_age, km_driven,
                         fuel_encoded, trans_encoded, mileage, engine, max_power, seats]])
 
-# ---------------------------
+
 # Predict price
-# ---------------------------
+
 if st.button("Get the prediction"):
     try:
         predicted_price = model.predict(input_data)[0]
@@ -94,4 +95,5 @@ if st.button("Get the prediction"):
     except Exception as e:
         st.error(f"Prediction failed: {e}")
         
+
 
