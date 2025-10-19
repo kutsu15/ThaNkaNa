@@ -1,7 +1,7 @@
 import os
 import streamlit as st  # type: ignore
 import numpy as np
-import joblib # type: ignore
+import pickle
 
 
 # Title and Header
@@ -11,30 +11,31 @@ st.header("Please fill in the car details below")
 
 
 # Load model and encoders 
-# ---------------------------
-# Load model and encoders safely
-# ---------------------------
-script_dir = os.getcwd()
-model_path = os.path.join(script_dir, "MajorProject", "ModelDeployment", "model.joblib")
+
+sscript_dir = os.getcwd()
+model_path = os.path.join(script_dir, "MajorProject", "ModelDeployment", "model.pkl")
 
 if not os.path.exists(model_path):
-    st.error(f"❌ Model file not found. Please place 'model.joblib' in the 'MajorProject/ModelDeployment' folder.")
+    st.error(f"❌ Model file not found. Please place 'model.pkl' in the 'MajorProject/ModelDeployment' folder.")
     st.stop()
 
 try:
-    combined = joblib.load(model_path)
+    with open(model_path, "rb") as f:
+        combined = pickle.load(f)
 except Exception as e:
     st.error(f"❌ Failed to load model: {e}")
     st.stop()
+
 
 model = combined.get("model")
 encoders = combined.get("encoders")
 
 if model is None or encoders is None:
-    st.error("❌ Model or encoders not found in the joblib file.")
-    
+    st.error("❌ Model or encoders not found in the pickle file.")
+    st.stop()
 
-# Map the labels the model was trained
+
+# Brand-Model Mapping
 
 brand_model_mapping = {
     "Audi": ["A4"],
@@ -99,3 +100,4 @@ if st.button("Predict Price"):
         st.success(f"💰 Estimated Car Price: ₹{predicted_price:,.2f}")
     except Exception as e:
         st.error(f"❌ Error during prediction: {e}")
+
