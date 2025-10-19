@@ -1,6 +1,7 @@
 streamlit==1.50.0
 numpy==1.27.4
-scikit-learn==1.5.2
+scikit-learn==<your-local-version>
 pandas==2.1.1
+
 
 
