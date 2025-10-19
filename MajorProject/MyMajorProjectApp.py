@@ -1,7 +1,7 @@
 import os
 import streamlit as st  # type: ignore
 import pickle
-import numpy as npp
+import numpy as np
 
 # ---------------------------
 # Title and Header
@@ -98,3 +98,4 @@ if st.button("Predict Price"):
         st.success(f"💰 Estimated Car Price: ₹{predicted_price:,.2f}")
     except Exception as e:
         st.error(f"❌ Error during prediction: {e}")
+
