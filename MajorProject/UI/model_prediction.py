@@ -13,6 +13,7 @@ st.header("Please fill in the car details below")
 # Load model and encoders 
 
 sscript_dir = os.getcwd()
+
 model_path = os.path.join(script_dir, "MajorProject", "ModelDeployment", "model.pkl")
 
 if not os.path.exists(model_path):
@@ -100,4 +101,5 @@ if st.button("Predict Price"):
         st.success(f"💰 Estimated Car Price: ₹{predicted_price:,.2f}")
     except Exception as e:
         st.error(f"❌ Error during prediction: {e}")
+
 
