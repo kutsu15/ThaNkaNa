@@ -3,6 +3,34 @@ import streamlit as st  # type: ignore
 import pickle
 import numpy as np
 
+st.set_page_config(page_title="Car Price Predictor", layout="centered")
+
+st.markdown("""
+    <style>
+    /* Target only the main content area inside the app */
+    [data-testid="stAppViewContainer"] {
+        background-color: teal;
+        padding: 2rem;
+        border-radius: 10px;
+    }
+
+    /* Make all text black for readability */
+    [data-testid="stMarkdownContainer"] {
+        color: black;
+    }
+
+    /* Style sliders: white track and thumb */
+    div[data-baseweb="slider"] > div {
+        background-color: white !important;
+        border-radius: 10px;
+    }
+    div[data-baseweb="slider"] [role="slider"] {
+        background-color: white !important;
+        border: 2px solid #ccc;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # ---------------------------
 # Title and Header
 # ---------------------------
@@ -98,5 +126,6 @@ if st.button("Predict Price"):
         st.success(f"💰 Estimated Car Price: R{predicted_price:,.2f}")
     except Exception as e:
         st.error(f"❌ Error during prediction: {e}")
+
 
 
