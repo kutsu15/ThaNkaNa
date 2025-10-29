@@ -115,7 +115,7 @@ trans_encoded = safe_encode(encoders["transmission_type"], transmission_type, "t
 # Input data
 
 input_data = np.array([[brand_encoded, model_encoded, vehicle_age, km_driven,
-                        fuel_encoded, trans_encoded, mileage, engine, max_power, seats]])
+                        fuel_encoded, trans_encoded, mileage, engine, max_power]])
 
 
 # Predict price
@@ -126,6 +126,7 @@ if st.button("Predict Price"):
         st.success(f"💰 Estimated Car Price: R{predicted_price:,.2f}")
     except Exception as e:
         st.error(f"❌ Error during prediction: {e}")
+
 
 
 
