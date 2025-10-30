@@ -3,16 +3,6 @@ import streamlit as st  # type: ignore
 import pickle
 import numpy as np
 
-st.set_page_config(page_title="Car Price Predictor", layout="centered")
-
-st.markdown("""
-    <style>
-      /* Make all text black for readability */
-    [data-testid="stMarkdownContainer"] {
-        color: black;
-    }
-        </style>
-""", unsafe_allow_html=True)
 # ---------------------------
 # Title and Header
 # ---------------------------
@@ -109,6 +99,7 @@ if st.button("Predict Price"):
     except Exception as e:
 
         st.error(f"❌ Error during prediction: {e}")
+
 
 
 
