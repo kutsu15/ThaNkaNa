@@ -7,14 +7,7 @@ st.set_page_config(page_title="Car Price Predictor", layout="centered")
 
 st.markdown("""
     <style>
-    /* Target only the main content area inside the app */
-    [data-testid="stAppViewContainer"] {
-        background-color: teal;
-        padding: 2rem;
-        border-radius: 10px;
-    }
-
-    /* Make all text black for readability */
+      /* Make all text black for readability */
     [data-testid="stMarkdownContainer"] {
         color: black;
     }
@@ -126,4 +119,5 @@ if st.button("Predict Price"):
     except Exception as e:
 
         st.error(f"❌ Error during prediction: {e}")
+
 
