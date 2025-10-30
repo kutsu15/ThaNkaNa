@@ -11,17 +11,7 @@ st.markdown("""
     [data-testid="stMarkdownContainer"] {
         color: black;
     }
-
-    /* Style sliders: white track and thumb */
-    div[data-baseweb="slider"] > div {
-        background-color: white !important;
-        border-radius: 10px;
-    }
-    div[data-baseweb="slider"] [role="slider"] {
-        background-color: white !important;
-        border: 2px solid #ccc;
-    }
-    </style>
+        </style>
 """, unsafe_allow_html=True)
 # ---------------------------
 # Title and Header
@@ -119,5 +109,6 @@ if st.button("Predict Price"):
     except Exception as e:
 
         st.error(f"❌ Error during prediction: {e}")
+
 
 
